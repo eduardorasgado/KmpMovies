@@ -60,6 +60,7 @@ fun HomeScreen(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
             val state = vm.state
+
             if(state.loading) {
                 Box(modifier = Modifier
                     .fillMaxSize()
