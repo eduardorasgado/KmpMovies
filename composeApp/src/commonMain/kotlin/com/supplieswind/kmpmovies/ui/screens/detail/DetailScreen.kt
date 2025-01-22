@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.supplieswind.kmpmovies.ui.common.LoadingIndicator
 import com.supplieswind.kmpmovies.ui.screens.Screen
 import kmpmovies.composeapp.generated.resources.Res
 import kmpmovies.composeapp.generated.resources.back
@@ -55,40 +56,29 @@ fun DetailScreen(onBack: () -> Unit, vm: DetailViewModel) {
                 )
             }
         ) { padding ->
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState())
-            ) {
+            LoadingIndicator(isLoading, Modifier.padding(padding))
 
-                if (isLoading) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(padding),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
-                    }
-                }
-
-                AsyncImage(
-                    model = movie?.poster,
-                    contentDescription = movie?.title,
-                    contentScale = ContentScale.Crop,
+            // si movie no existe(nulos) entonces el bloque despupes de let no sera ejecutado
+            movie?.let { movie ->
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                )
-                // si movie o title no existen(nulos) entonces el bloque despupes de let no sera ejecutado
-                movie?.title?.let {
+                        .padding(padding)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    AsyncImage(
+                        model = movie.poster,
+                        contentDescription = movie.title,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f)
+                    )
                     Text(
-                        text = it,
+                        text = movie.title,
                         modifier = Modifier.padding(16.dp),
                         style = MaterialTheme.typography.headlineMedium
                     )
                 }
-
             }
         }
     }

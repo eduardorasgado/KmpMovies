@@ -28,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.supplieswind.kmpmovies.data.Movie
+import com.supplieswind.kmpmovies.ui.common.LoadingIndicator
 import com.supplieswind.kmpmovies.ui.screens.Screen
 import kmpmovies.composeapp.generated.resources.Res
 import kmpmovies.composeapp.generated.resources.app_name
@@ -60,16 +61,7 @@ fun HomeScreen(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
             val state = vm.state
-
-            if(state.loading) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            LoadingIndicator(state.loading, Modifier.padding(padding))
 
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp),
